@@ -36,8 +36,8 @@ class BlogCategoryRepository extends CoreRepository
             'CONCAT (id, ". ", title) AS id_title',  //додаємо поле id_title
         ]);
 
-        //$result[] = $this->startConditions()->all();
-        /*$result[] = $this                           //1 варіант
+        //$result = $this->startConditions()->all();
+        /*$result = $this                           //1 варіант
             ->startConditions()
             ->select('blog_categories.*',
                 \DB::raw('CONCAT (id, ". ", title) AS id_title'))
@@ -73,5 +73,6 @@ class BlogCategoryRepository extends CoreRepository
 
         return $result;
     }
+
 
 }

@@ -26,6 +26,7 @@ class CategoryController extends BaseController
         $this->blogCategoryRepository = app(BlogCategoryRepository::class);
     }
 
+
     /**
      * Display a listing of the resource.
      *
