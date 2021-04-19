@@ -149,8 +149,15 @@ class PostController extends BaseController
      */
     public function destroy($id)
     {
-        BlogPost::withTrashed()->where('id', $id)->forceDelete();
-        $paginator = $this->blogPostRepository->getAllWithPaginate();
-        return view('blog.admin.posts.index', compact('paginator'));
+        $result = BlogPost::withTrashed()->where('id', $id)->delete();
+
+        if ($result) {
+            return redirect()
+                ->route('blog.admin.posts.index')
+                ->with(['success' => "Запис id[$id] видалено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Помилка видалення']);
+        }
     }
 }
