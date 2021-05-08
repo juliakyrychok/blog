@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Blog\Admin;
 
+use Illuminate\Support\Facades\Gate;
 use App\Jobs\BlogPostAfterCreateJob;
 use App\Jobs\BlogPostAfterDeleteJob;
 use App\Models\BlogPost;
@@ -10,6 +11,7 @@ use App\Repositories\BlogCategoryRepository;
 use App\Http\Requests\BlogPostUpdateRequest;
 use App\Http\Requests\BlogPostCreateRequest;
 use Illuminate\Support\Str;
+
 
 
 class PostController extends BaseController
@@ -38,6 +40,10 @@ class PostController extends BaseController
      */
     public function index()
     {
+        if(!Gate::allows('allowed', auth()->id())) {
+            return redirect()->route('blog.posts.index');
+        }
+
         $paginator = $this->blogPostRepository->getAllWithPaginate();
 
         return view('blog.admin.posts.index', compact('paginator'));
@@ -104,6 +110,10 @@ class PostController extends BaseController
      */
     public function edit($id)
     {
+        if(!Gate::allows('allowed', auth()->id())) {
+            return redirect()->route('blog.posts.index');
+        }
+
         $item = $this->blogPostRepository->getEdit($id);
         if (empty($item)) {                         //помилка, якщо репозиторій не знайде наш ід
             abort(404);

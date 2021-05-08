@@ -34,6 +34,10 @@ class CategoryController extends BaseController
      */
     public function index()
     {
+        if(!Gate::allows('allowed', auth()->id())) {
+            return redirect()->route('blog.posts.index');
+        }
+
         //dd(__METHOD__);
         //$paginator = BlogCategory::paginate(5);
         $paginator = $this->blogCategoryRepository->getAllWithPaginate(5);
@@ -99,6 +103,10 @@ class CategoryController extends BaseController
      */
     public function edit($id)
     {
+        if(!Gate::allows('allowed', auth()->id())) {
+            return redirect()->route('blog.posts.index');
+        }
+
         $item = $this->blogCategoryRepository->getEdit($id);
         if (empty($item)) {                         //помилка, якщо репозиторій не знайде наш ід
             abort(404);
