@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Blog\Admin;
 
 //use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\BlogCategoryCreateRequest;
 use App\Http\Requests\BlogCategoryUpdateRequest;
 use App\Repositories\BlogCategoryRepository;
@@ -35,7 +36,7 @@ class CategoryController extends BaseController
     public function index()
     {
         if(!Gate::allows('allowed', auth()->id())) {
-            return redirect()->route('blog.posts.index');
+            return redirect()->route('blog.category.index');
         }
 
         //dd(__METHOD__);
